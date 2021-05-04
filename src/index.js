@@ -41,7 +41,7 @@ app.get("/modelscount", async (req, res) => {
 
     const [data] = await con.execute(
       `
-        SELECT models.id, name, hour_price, COUNT(vehicles.model_id) as amount
+        SELECT models.id, name, hour_price, COUNT(vehicles.model_id) as quantity
         FROM models
         INNER JOIN vehicles ON vehicles.model_id = models.id
         GROUP BY id
