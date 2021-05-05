@@ -95,7 +95,12 @@ app.get("/vehicles/:country", async (req, res) => {
     const con = await mysql.createConnection(mysqlConfig);
 
     const [data] = await con.execute(
-      `SELECT * FROM vehicles WHERE country_location = '${req.params.country}' `
+      `SELECT vehicles.id, models.name, number_plate, country_location, ROUND(models.hour_price + models.hour_price*0.21, 2) AS hour_price
+      FROM vehicles
+      INNER JOIN models ON models.id = vehicles.model_id
+      WHERE country_location = '${req.params.country.toUpperCase()}'
+      GROUP BY vehicles.id
+      `
     );
     con.end();
 
