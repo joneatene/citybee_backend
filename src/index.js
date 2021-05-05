@@ -34,7 +34,6 @@ app.get("/models", async (req, res) => {
   }
 });
 
-//CIA DAR REIKIA PABAIGTI
 app.get("/modelscount", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
@@ -102,6 +101,10 @@ app.get("/vehicles/:country", async (req, res) => {
       GROUP BY vehicles.id
       `
     );
+    if (data.length === 0) {
+      return res.send({ status: "No vehicles" });
+    }
+
     con.end();
 
     res.send(data);
